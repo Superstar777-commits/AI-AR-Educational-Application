@@ -1,0 +1,6 @@
+node_modules
+
+quiz-client/.env
+quiz-server/.env
+
+quiz-server/src/__pycache__

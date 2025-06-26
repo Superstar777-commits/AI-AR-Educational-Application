@@ -1,0 +1,20 @@
+{
+  "name": "educational-app",
+  "version": "1.0.0",
+  "description": "A mono-repo for React TS client and FastAPI Python server with ML integration.",
+  "scripts": {
+    "install:client": "cd quiz-client && npm install",
+    "install:server:windows": "cd quiz-server && .\\.venv\\Scripts\\python.exe -m pip install -r requirements.txt",
+    "install:server:unix": "cd quiz-server && ./.venv/bin/python -m pip3 install -r requirements.txt",
+    "install:server": "npm run install:server:windows || npm run install:server:unix",
+    "install:all": "concurrently \"npm run install:client\" \"npm run install:server\"",
+    "dev:client": "cd quiz-client && npm run dev",
+    "dev:server:windows": "cd quiz-server/src && ..\\.venv\\Scripts\\uvicorn.exe main:app --reload",
+    "dev:server:unix": "cd server/src && ../.venv/bin/uvicorn main:app --reload",
+    "dev:server": "npm run dev:server:windows || npm run dev:server:unix",
+    "dev:all": "concurrently \"npm run dev:client\" \"npm run dev:server\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}
