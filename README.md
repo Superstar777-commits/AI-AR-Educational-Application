@@ -30,15 +30,15 @@ This is a mono repo (monolithic repository), which means it contains both client
 
 1. Clone this repo into a directory
 2. From the root folder (quiz)
-    1. Run ```npm install``` to install Concurrently to the monorepo
+    1. Run ```npm install``` to install [concurrently](https://www.npmjs.com/package/concurrently) to the monorepo
     2. Run ```npm run install:all``` which will install all packages for both client and server
-        - For the python virtual environment there is install:server:windows and install:server:unix based on your OS
-        - It will run the windows one and if it doesn't work, it'll run the unix one
-    3. Then run ```npm run dev:all``` (similar logic as install:all)
-3. App is now running with both client and server running different ports
+        - For the Python virtual environment, there is ```install:server:windows``` and ```install:server:unix``` based on your OS
+        - It will run the Windows one and if it doesn't work, it'll run the Unix one
+    3. Then run ```npm run dev:all``` (similar logic as ```install:all```)
+3. App is now running with both client and server running on different ports!
 
 ## NB!!!
 
-If the npm scripts don't work you may have to manually go into each folder and run specific commands
-- For client this would be ```npm install```
-- For server this would be having to start the virtual environment (which is different based on your OS, ask ChatGPT, Gemini or Google search), then using pip to install from the requirements.txt file
+If the npm scripts don't work, you may have to manually go into each folder and run specific commands
+- For client, this would be ```npm install```
+- For server, this would be having to start the virtual environment (which is different based on your OS, ask ChatGPT, Gemini, or Google search), then using pip to install from the requirements.txt file
