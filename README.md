@@ -42,3 +42,7 @@ This is a mono repo (monolithic repository), which means it contains both client
 If the npm scripts don't work you may have to manually go into each folder and run specific commands
 - For client this would be ```npm install```
 - For server this would be having to start the virtual environment (which is different based on your OS, ask ChatGPT, Gemini or Google search), then using pip to install from the requirements.txt file
+
+### For API Testing
+
+FastAPI provides a Swagger and a ReDoc UI to test the Python API with, read more about it [here](https://fastapi.tiangolo.com/#interactive-api-docs)

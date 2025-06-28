@@ -3,4 +3,5 @@ node_modules
 quiz-client/.env
 quiz-server/.env
 
-quiz-server/src/__pycache__
+quiz-server/**/*/__pycache__
+quiz-server/**/*/uvicorn.log
