@@ -17,7 +17,7 @@ questions_table = Table(
     Column("level", Enum(Levels), nullable=False, default=Levels.low),
     Column("correctAnswer", String, nullable=False),
     Column("done", Boolean, nullable=False, default=False),
-    Column("startTime", TIMESTAMP(timezone=False), nullable=False),
-    Column("endTime", TIMESTAMP(timezone=False), nullable=False),
+    Column("startTime", TIMESTAMP, nullable=True),
+    Column("endTime", TIMESTAMP, nullable=True),
     Column("quiz_id", Integer, ForeignKey("Quiz.id"), nullable=False)
 )

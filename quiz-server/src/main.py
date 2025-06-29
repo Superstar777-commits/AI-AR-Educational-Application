@@ -16,6 +16,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 # import fastapi routers
 from src.api.routers import user_router
+from src.api.routers import question_router
 
 # import db initialization function and metadata object
 from src.core.database import init_db, metadata
@@ -66,6 +67,7 @@ app = FastAPI(
 
 # include routers
 app.include_router(user_router.router)
+app.include_router(question_router.router)
 
 @app.get("/")
 async def root():

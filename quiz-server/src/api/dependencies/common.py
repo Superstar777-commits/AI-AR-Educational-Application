@@ -5,8 +5,10 @@ from typing import AsyncGenerator, Any
 from src.core.database import get_db # Import your get_db dependency
 
 from src.repositories.user_repository import UserRepository
+from src.repositories.question_repository import QuestionRepository
 # from src.repositories.data_repository import DataRepository # Adjust this if it expects AsyncSession
 from src.services.user_service import UserService
+from src.services.question_service import QuestionService
 # from src.ml_core.model_manager import ModelManager # Adjusted path for clarity
 # from src.services.ml_service import MLService
 
@@ -20,6 +22,9 @@ async def get_db_session() -> AsyncGenerator[Session, Any]: # Correct type hint 
 def get_user_repository(db: Session = Depends(get_db_session)) -> UserRepository:
     return UserRepository(db)
 
+def get_question_repository(db: Session = Depends(get_db_session)) -> QuestionRepository:
+    return QuestionRepository(db)
+
 """ def get_data_repository(db: Session = Depends(get_db_session)) -> DataRepository:
     # If DataRepository needs a database session, it should also expect Session
     # You'll need to update DataRepository's __init__ and methods similar to UserRepository
@@ -30,6 +35,11 @@ def get_user_service(
     user_repo: UserRepository = Depends(get_user_repository)
 ) -> UserService:
     return UserService(user_repo)
+
+def get_question_service(
+    question_repo: QuestionRepository = Depends(get_question_repository)
+) -> QuestionService:
+    return QuestionService(question_repo)
 
 """ def get_model_manager() -> ModelManager:
     return ModelManager() """
