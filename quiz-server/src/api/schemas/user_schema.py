@@ -3,11 +3,12 @@ from typing import Optional
 
 # Base schema for common user attributes
 class UserBase(BaseModel):
-    id: int
     email: EmailStr
     name: str
     surname: str
 
+# schema for creating a new user (input model for POST reqeuests)
+# omits id as the db generates one
 # Schema for creating a new user (requires password)
 class UserCreate(UserBase):
     password: str

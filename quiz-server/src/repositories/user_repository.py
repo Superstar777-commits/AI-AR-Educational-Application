@@ -29,7 +29,7 @@ class UserRepository:
 
             # fetch the created user to return its full data including generated ID
             created_user_row = self.db.execute(
-                select(users_table).where(users_table.c.id == user_data.id)
+                select(users_table).where(users_table.c.id == result.lastrowid)
             ).first()
 
             return created_user_row._asdict() if created_user_row else None # convert row to dict
