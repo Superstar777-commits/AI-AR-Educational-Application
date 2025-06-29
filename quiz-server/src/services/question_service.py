@@ -23,6 +23,11 @@ class QuestionService:
         question_dict = await self.question_repo.get_question_by_id(id)
         return question_dict
 
+    async def get_questions_by_quiz_id(self, id: int, skip: int=0, limit:int=10) -> List[Dict[str, Any]]:
+        """Retrieves all questions by quiz id with pagination"""
+        questions_list_dict = await self.question_repo.get_questions_by_quiz_id(id=id, skip=skip, limit=limit)
+        return questions_list_dict
+
     async def get_questions(self, skip: int = 0, limit: int = 10) -> List[Dict[str, Any]]:
         """Retrieves all questions through pagination"""
         questions_list_dict = await self.question_repo.get_questions(skip=skip, limit=limit)

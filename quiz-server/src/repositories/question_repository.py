@@ -44,6 +44,14 @@ class QuestionRepository:
             return question_row._asdict() if question_row else None
         return await run_in_threadpool(_get_question_by_id_sync)
 
+    async def get_questions_by_quiz_id(self, id: int, skip: int=0, limit:int=10) -> List[Dict[str, Any]]:
+        """Retrieves questions by their quiz id foreign key"""
+        def _get_questions_by_quiz_id_sync():
+            stmt = select(questions_table).where(questions_table.c.quiz_id == id).offset(skip).limit(limit)
+            results = self.db.execute(stmt).fetchall()
+            return [row._asdict() for row in results]
+        return await run_in_threadpool(_get_questions_by_quiz_id_sync)
+
     async def get_questions(self, skip: int=0, limit:int=10) -> List[Dict[str, Any]]:
         """Retrieves a list of questions"""
         def _get_questions_sync():

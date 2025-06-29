@@ -1,4 +1,5 @@
 from typing import Union, Dict, Any
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from pydantic import BaseModel
 from contextlib import asynccontextmanager
@@ -62,6 +63,16 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+# add your frontend's url
+origin = ["http://localhost:5173"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origin,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 # include routers
 app.include_router(user_router.router)
 app.include_router(question_router.router)

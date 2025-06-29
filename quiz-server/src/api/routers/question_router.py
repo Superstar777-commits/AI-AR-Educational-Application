@@ -48,3 +48,16 @@ async def get_all_questions_route(
     """
     questions_list_dict = await question_service.get_questions(skip=skip, limit=limit)
     return [QuestionResponse.model_validate(question_dict) for question_dict in questions_list_dict]
+
+@router.get("/quiz/{id}", response_model=List[QuestionResponse])
+async def get_all_questions_by_quiz_id_route(
+    id: int,
+    skip: int = 0,
+    limit: int = 10,
+    question_service: QuestionService = Depends(get_question_service)
+) -> List[QuestionResponse]:
+    """
+        Retrieves a list of all questions
+    """
+    questions_list_dict = await question_service.get_questions_by_quiz_id(id=id, skip=skip, limit=limit)
+    return [QuestionResponse.model_validate(question_dict) for question_dict in questions_list_dict]
