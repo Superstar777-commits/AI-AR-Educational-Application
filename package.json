@@ -9,7 +9,7 @@
     "install:server": "npm run install:server:windows || npm run install:server:unix",
     "install:all": "concurrently \"npm run install:client\" \"npm run install:server\"",
     "dev:client": "cd quiz-client && npm run dev",
-    "dev:server:windows": "cd quiz-server/src && ..\\.venv\\Scripts\\uvicorn.exe main:app --reload --timeout-graceful-shutdown 1 --reload-delay 2",
+    "dev:server:windows": "cd quiz-server/src && ..\\.venv\\Scripts\\uvicorn.exe main:app --reload --timeout-graceful-shutdown 1 --reload-delay 1",
     "dev:server:unix": "cd server/src && ../.venv/bin/uvicorn main:app --reload",
     "dev:server": "npm run dev:server:windows || npm run dev:server:unix",
     "dev:all": "concurrently \"npm run dev:client\" \"npm run dev:server\""

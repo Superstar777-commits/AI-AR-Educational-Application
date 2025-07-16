@@ -19,6 +19,9 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from src.api.routers import user_router
 from src.api.routers import question_router
 from src.api.routers import quiz_router
+from src.api.routers import analysis_router
+from src.api.routers import answer_router
+from src.api.routers import log_router
 
 # import db initialization function and metadata object
 from src.core.database import init_db
@@ -77,6 +80,9 @@ app.add_middleware(
 app.include_router(user_router.router)
 app.include_router(question_router.router)
 app.include_router(quiz_router.router)
+app.include_router(answer_router.router)
+app.include_router(analysis_router.router)
+app.include_router(log_router.router)
 
 @app.get("/")
 async def root():

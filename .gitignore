@@ -5,3 +5,4 @@ quiz-server/.env
 
 quiz-server/**/*/__pycache__
 quiz-server/**/*/uvicorn.log
+.vscode/settings.json
