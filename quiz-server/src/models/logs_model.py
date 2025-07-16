@@ -1,12 +1,12 @@
-from sqlalchemy import Column, Integer, String, Enum, ForeignKey, Table, TIMESTAMP
+from sqlalchemy import Column, Integer, Enum, ForeignKey, Table, TIMESTAMP
 from ..core.database import metadata
 import enum
 
 class Actions(enum.Enum):
-    pause = 1
-    resume = 2
-    started = 3
-    completed = 4
+    pause = "pause"
+    resume = "resume"
+    started = "started"
+    completed = "completed"
 
 logs_table = Table(
     "logs",

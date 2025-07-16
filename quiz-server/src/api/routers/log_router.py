@@ -32,7 +32,7 @@ async def get_log_by_id(
         raise HTTPException(status_code=404, detail="No log found")
     return LogResponse.model_validate(log_dict)
 
-@router.get("/all", response_model=List[LogResponse], status_code=status.HTTP_200_OK)
+@router.get("/", response_model=List[LogResponse], status_code=status.HTTP_200_OK)
 async def get_all_logs(
     skip: int = 0,
     limit: int = 10,
