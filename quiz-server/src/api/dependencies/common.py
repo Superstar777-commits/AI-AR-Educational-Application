@@ -1,3 +1,7 @@
+"""
+    File handles all the common repos and services necessary for the routers
+"""
+
 from sqlalchemy.orm import Session # Import Session for synchronous context
 from fastapi import Depends
 from typing import AsyncGenerator, Any
@@ -18,7 +22,7 @@ from src.services.answer_service import AnswerService
 from src.services.analysis_service import AnalysisService
 from src.services.log_service import LogService
 # from src.ml_core.model_manager import ModelManager # Adjusted path for clarity
-# from src.services.ml_service import MLService
+from src.services.ml_service import MLService
 
 # Database dependency (now yields a synchronous Session)
 async def get_db_session() -> AsyncGenerator[Session, Any]: # Correct type hint for async generator
@@ -82,8 +86,12 @@ def get_log_service(
 """ def get_model_manager() -> ModelManager:
     return ModelManager() """
 
-""" def get_ml_service(
-    model_manager: ModelManager = Depends(get_model_manager),
-    data_repo: DataRepository = Depends(get_data_repository)
+def get_ml_service(
+    analysis_repo: AnalysisRepository = Depends(get_analysis_repository),
+    answer_repo: AnswerRepository = Depends(get_answer_repository),
+    log_repo: LogRepository = Depends(get_log_repository),
+    question_repo: QuestionRepository = Depends(get_question_repository),
+    user_repo: UserRepository = Depends(get_user_repository),
+    quiz_repo: QuizRepository = Depends(get_quiz_repository)
 ) -> MLService:
-    return MLService(model_manager, data_repo) """
+    return MLService(analysis_repo, answer_repo, log_repo, question_repo, user_repo, quiz_repo)

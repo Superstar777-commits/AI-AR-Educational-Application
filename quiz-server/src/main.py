@@ -1,3 +1,8 @@
+"""
+    Entry point for the application
+    Handles all the mounting for the routers, logs, port, CORS policy
+"""
+
 from typing import Union, Dict, Any
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
@@ -22,6 +27,7 @@ from src.api.routers import quiz_router
 from src.api.routers import analysis_router
 from src.api.routers import answer_router
 from src.api.routers import log_router
+from src.api.routers import ml_route
 
 # import db initialization function and metadata object
 from src.core.database import init_db
@@ -83,6 +89,7 @@ app.include_router(quiz_router.router)
 app.include_router(answer_router.router)
 app.include_router(analysis_router.router)
 app.include_router(log_router.router)
+app.include_router(ml_route.router)
 
 @app.get("/")
 async def root():
