@@ -43,6 +43,11 @@ If the npm scripts don't work, you may have to manually go into each folder and 
 - For client, this would be ```npm install```
 - For server, this would be having to start the virtual environment (which is different based on your OS, ask ChatGPT, Gemini, or Google search), then using pip to install from the requirements.txt file
 
+If having problems with Uvicorn not reloading after saving changes to a file
+- run this command in CMD: ```tasklist /FI "IMAGENAME eq python.exe"```, then run this command ```taskkill /PID <PROCESS_ID>  /F``` using the process IDs listed out
+- Make sure you're running the server on Command Prompt and not Git Bash
+- Otherwise use ```npm run dev:server_alt``` which will use FastAPI directly (still make sure you're using Command Prompt)
+
 ### For API Testing
 
 FastAPI provides a Swagger and a ReDoc UI to test the Python API with, read more about it [here](https://fastapi.tiangolo.com/#interactive-api-docs)

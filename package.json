@@ -12,6 +12,9 @@
     "dev:server:windows": "cd quiz-server/src && ..\\.venv\\Scripts\\uvicorn.exe main:app --reload",
     "dev:server:unix": "cd server/src && ../.venv/bin/uvicorn main:app --reload",
     "dev:server": "npm run dev:server:windows || npm run dev:server:unix",
+    "dev:server:windows_alt": "cd quiz-server/src && ..\\.venv\\Scripts\\fastapi run main.py --reload",
+    "dev:server:unix_alt": "cd quiz-server/src && ../.venv/bin/fastapi run main.py --reload",
+    "dev:server_alt": "npm run dev:server:windows_alt || npm run dev:server:unix_alt",
     "dev:all": "concurrently \"npm run dev:client\" \"npm run dev:server\""
   },
   "devDependencies": {
