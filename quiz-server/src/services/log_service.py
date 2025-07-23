@@ -1,3 +1,8 @@
+"""
+    Service for Logs
+    Contains all the logic for the log_router
+"""
+
 from typing import Optional, List, Dict, Any
 from src.api.schemas.log_schema import LogCreate, LogResponse
 from src.repositories.log_repository import LogRepository

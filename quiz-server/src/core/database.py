@@ -1,3 +1,7 @@
+"""
+    Handles DB connections and creating the tables (models)
+"""
+
 from sqlalchemy import create_engine, MetaData, text
 from sqlalchemy.orm import sessionmaker, Session # Use Session for synchronous context
 from starlette.concurrency import run_in_threadpool # Essential for running sync code in async app

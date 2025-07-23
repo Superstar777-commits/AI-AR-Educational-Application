@@ -1,3 +1,7 @@
+"""
+    Model for Users table
+"""
+
 from sqlalchemy import Column, Integer, String, Table
 from ..core.database import metadata # import Base from db setup
 

@@ -1,3 +1,7 @@
+"""
+    Analysis router Pydantic schema
+"""
+
 from pydantic import BaseModel
 
 class AnalysisBase(BaseModel):

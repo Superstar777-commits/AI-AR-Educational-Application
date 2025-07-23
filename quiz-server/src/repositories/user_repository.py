@@ -1,3 +1,8 @@
+"""
+    Repository for Users
+    Contains all the concrete implementations for users_service functions
+"""
+
 from typing import Optional, List, Dict, Any
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete

@@ -1,3 +1,6 @@
+"""
+    File handles all the routes for Question table
+"""
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List, Dict, Any
 

@@ -1,3 +1,7 @@
+"""
+    File handles all the API routes for Analysis table
+"""
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List, Dict, Any
 

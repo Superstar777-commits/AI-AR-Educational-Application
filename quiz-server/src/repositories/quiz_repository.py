@@ -1,3 +1,8 @@
+"""
+    Repository for Quizzes
+    Contains all the concrete implementations for quiz_service functions
+"""
+
 from typing import Optional, List, Dict, Any
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete

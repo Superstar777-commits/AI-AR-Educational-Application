@@ -1,3 +1,7 @@
+"""
+    Model for Quizzes table
+"""
+
 from sqlalchemy import Column, Integer, String, Boolean, Enum, TIMESTAMP, ForeignKey, Table
 from ..core.database import metadata # import Base from db setup
 

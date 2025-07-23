@@ -1,3 +1,8 @@
+"""
+    Service for Quizzes
+    Contains all the logic for the quiz_router
+"""
+
 from typing import Optional, List, Dict, Any
 
 from src.api.schemas.quiz_schema import QuizCreate, QuizResponse, QuizUpdate

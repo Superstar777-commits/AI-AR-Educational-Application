@@ -1,3 +1,7 @@
+"""
+    User router Pydantic schema
+"""
+
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 

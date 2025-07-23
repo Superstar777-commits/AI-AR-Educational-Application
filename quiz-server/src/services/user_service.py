@@ -1,3 +1,8 @@
+"""
+    Service for Users
+    Contains all the logic for the user_router
+"""
+
 from typing import Optional, List, Dict, Any
 # remember to get hashing lib
 

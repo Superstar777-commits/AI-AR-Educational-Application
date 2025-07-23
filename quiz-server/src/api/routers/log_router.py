@@ -1,3 +1,6 @@
+"""
+    File handles all the routes for Logs table
+"""
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List, Dict, Any
 

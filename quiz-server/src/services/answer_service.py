@@ -1,3 +1,8 @@
+"""
+    Service for Answers
+    Contains all the logic for the answer_router
+"""
+
 from typing import Optional, List, Dict, Any
 from src.api.schemas.answer_schema import AnswerResponse, AnswerCreate
 from src.repositories.answer_repository import AnswerRepository
@@ -29,3 +34,8 @@ class AnswerService:
         """Retrieves all answers"""
         answers_list_dict = await self.answer_repo.get_answers(skip=skip, limit=limit)
         return answers_list_dict
+
+    async def allocate_marks_to_answer(self, id: int, marks: int) -> Optional[Dict[str, Any]]:
+        """Allocates marks to a user's answer"""
+        answer_dict = await self.answer_repo.allocate_marks_to_answer(id, marks)
+        return answer_dict

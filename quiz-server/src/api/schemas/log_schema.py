@@ -1,3 +1,7 @@
+"""
+    Log router Pydantic schema
+"""
+
 from pydantic import BaseModel
 from datetime import datetime
 from src.models.logs_model import Actions

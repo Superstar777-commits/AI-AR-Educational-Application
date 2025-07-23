@@ -1,7 +1,12 @@
+"""
+    Model for Logs table
+"""
+
 from sqlalchemy import Column, Integer, Enum, ForeignKey, Table, TIMESTAMP
 from ..core.database import metadata
 import enum
 
+# Enum for log action
 class Actions(enum.Enum):
     pause = "pause"
     resume = "resume"

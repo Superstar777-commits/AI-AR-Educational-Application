@@ -1,10 +1,15 @@
+"""
+    Repository for Questions
+    Contains all the concrete implementations for question_service functions
+"""
+
 from typing import Optional, List, Dict, Any
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete
 from starlette.concurrency import run_in_threadpool
 
 from ..models.question_model import questions_table
-from ..api.schemas.question_schema import QuestionCreate, QuestionUpdate, MarkAsDone
+from ..api.schemas.question_schema import QuestionCreate, QuestionUpdate
 
 class QuestionRepository:
     def __init__(self, db: Session):

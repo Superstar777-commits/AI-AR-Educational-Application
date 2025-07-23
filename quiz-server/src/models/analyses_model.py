@@ -1,3 +1,7 @@
+"""
+    Model for Analyses table
+"""
+
 from sqlalchemy import Column, Integer, String, ForeignKey, Table
 from ..core.database import metadata
 

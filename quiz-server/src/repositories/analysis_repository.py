@@ -1,3 +1,8 @@
+"""
+    Repository for Analyses
+    Contains all the concrete implementations for analysis_service functions
+"""
+
 from typing import Optional, List, Dict, Any
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert

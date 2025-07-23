@@ -1,8 +1,11 @@
+"""
+    File handles all the routes for Answers table
+"""
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List, Dict, Any
 
 # import pydantic schemes
-from src.api.schemas.answer_schema import AnswerCreate, AnswerResponse
+from src.api.schemas.answer_schema import AnswerCreate, AnswerResponse, AnswerUpdate
 # import AnswerService
 from src.services.answer_service import AnswerService
 #import dependency to inject the AnswerService
@@ -52,5 +55,15 @@ async def get_answer_by_id(
 ) -> AnswerResponse:
     """Retrieves an answer by id"""
     answer_dict = await answer_service.get_answer_by_id(id)
+    return AnswerResponse.model_validate(answer_dict)
+
+@router.patch("/allocate/{id}/{marks}", response_model=AnswerResponse)
+async def allocate_marks_to_question(
+    id: int,
+    marks: int,
+    answer_service: AnswerService = Depends(get_answer_service)
+) -> AnswerResponse:
+    """Allocates marks to a user's answer record"""
+    answer_dict = await answer_service.allocate_marks_to_answer(id, marks)
     return AnswerResponse.model_validate(answer_dict)
 

@@ -1,3 +1,8 @@
+"""
+    Service for Questions
+    Contains all the logic for the question_router
+"""
+
 from typing import Optional, List, Dict, Any
 from src.api.schemas.question_schema import QuestionCreate, QuestionResponse, QuestionUpdate
 from src.repositories.question_repository import QuestionRepository

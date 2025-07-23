@@ -1,3 +1,8 @@
+"""
+    Service for Analyses
+    Contains all the logic for the analysis_router
+"""
+
 from typing import Optional, List, Dict, Any
 from src.api.schemas.analysis_schema import AnalysisCreate
 from src.repositories.analysis_repository import AnalysisRepository
