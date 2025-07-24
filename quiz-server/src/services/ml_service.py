@@ -33,20 +33,21 @@ class MLService:
         self.quiz_repo = quiz_repo
 
     # functions for the machine learning model e.g. sentiment analysis, classification
-    async def analyse(self, id: int, user_id: Optional[int] = None) -> List[Dict[str, Any]]:
+    async def analyse(self, id: int, skip: int = 0, limit: int = 10, user_id: Optional[int] = None) -> List[Dict[str, Any]]:
         # initialise the list of dataframes
         dfs: List[pd.DataFrame] = []
-
+        print(f"user id: {user_id}")
         # if the user_id query exists
-        if(user_id != None):
+        if user_id is not None:
+            print(f"Getting by user id {user_id}")
             user = await self.user_repo.get_user_by_id(user_id)
             # if the user exists
-            if(user != None):
-                u_answers = await self.answer_repo.get_answers_by_user_and_quiz_id(user["id"], id)
+            if(user is not None):
+                u_answers = await self.answer_repo.get_answers_by_user_and_quiz_id(user["id"], id, skip=skip, limit=limit)
                 print(f"U answers: {u_answers}")
                 if len(u_answers) == 0:
                     return []
-                u_logs = await self.log_repo.get_logs_by_user_id(user["id"])
+                u_logs = await self.log_repo.get_logs_by_user_id(user["id"], skip=skip, limit=limit)
                 if len(u_logs) == 0:
                     return []
                 print(f"U Logs: {u_logs}")
@@ -57,6 +58,7 @@ class MLService:
                 return []
         # if the user_id query doesn't exist
         else:
+            print("Getting by all users")
             users = await self.user_repo.get_users()
             print(f"Users: {users}")
             for user in users:

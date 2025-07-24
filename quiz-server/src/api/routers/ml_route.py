@@ -14,14 +14,16 @@ router = APIRouter(prefix="/ml", tags=["ML"])
 
 @router.get("/df/{id}", response_model=None, status_code=status.HTTP_200_OK)
 async def get_df(
-    id: int,
+    quiz_id: int,
+    skip: int = 0,
+    limit: int = 10,
     user_id: Optional[int] = Query(None, description="Filter by user ID"),
     ml_service: MLService = Depends(get_ml_service)
 ) -> List[Dict[str, Any]]:
     """
-        Create and return a DataFrame, using the quiz id (id) and a user id as a filter
+        Create and return a DataFrame, using the quiz id and a user id as a filter
     """
-    dfs = await ml_service.analyse(id=id)
+    dfs = await ml_service.analyse(id=quiz_id, skip=skip, limit=limit, user_id=user_id)
     if dfs == None:
         raise HTTPException(status_code=500, detail="Something went wrong")
     print(dfs)
