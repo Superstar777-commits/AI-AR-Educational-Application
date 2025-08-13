@@ -40,7 +40,7 @@ async def get_question_route(
         raise HTTPException(status_code=400, detail="Question not found.")
     return QuestionResponse.model_validate(question_dict)
 
-@router.get("/", response_model=List[QuestionResponse])
+@router.get("/all", response_model=List[QuestionResponse])
 async def get_all_questions_route(
     skip: int = 0,
     limit: int = 10,

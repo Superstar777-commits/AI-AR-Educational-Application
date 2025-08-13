@@ -44,7 +44,7 @@ async def get_user_route(
         raise HTTPException(status_code=404, detail="User not found.")
     return UserResponse.model_validate(user_dict) # Convert dict from service to Pydantic model
 
-@router.get("/", response_model=List[UserResponse])
+@router.get("/all", response_model=List[UserResponse])
 async def get_all_users_route(
     skip: int = 0,
     limit: int = 100,

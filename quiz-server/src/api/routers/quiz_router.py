@@ -34,7 +34,7 @@ async def get_quiz_by_id(
         raise HTTPException(status_code=404, detail="Quiz not found")
     return QuizResponse.model_validate(quiz_dict)
 
-@router.get("/", response_model=List[QuizResponse])
+@router.get("/all", response_model=List[QuizResponse])
 async def get_all_quizzes_route(
         skip: int = 0,
         limit: int = 10,

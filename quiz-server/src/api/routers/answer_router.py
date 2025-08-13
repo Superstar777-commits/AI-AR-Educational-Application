@@ -48,6 +48,29 @@ async def get_all_answers_by_user(
     answers_list_dict = await answer_service.get_answers_by_user_id(id=id, skip=skip, limit=limit)
     return [AnswerResponse.model_validate(answer_dict) for answer_dict in answers_list_dict]
 
+@router.get("/user/{user_id}/quiz/{quiz_id}", response_model=List[AnswerResponse])
+async def get_all_answers_by_user_and_quiz_id(
+    user_id: int,
+    quiz_id: int,
+    skip: int = 0,
+    limit: int = 10,
+    answer_service: AnswerService = Depends(get_answer_service)
+) -> List[AnswerResponse]:
+    """Retrieves all answers by users"""
+    answers_list_dict = await answer_service.get_answers_by_user_id_and_quiz_id(user_id=user_id, quiz_id=quiz_id, skip=skip, limit=limit)
+    return [AnswerResponse.model_validate(answer_dict) for answer_dict in answers_list_dict]
+
+@router.get("/quiz/{id}", response_model=List[AnswerResponse])
+async def get_all_answers_by_quiz_id(
+    id: int,
+    skip: int = 0,
+    limit: int = 10,
+    answer_service: AnswerService = Depends(get_answer_service)
+) -> List[AnswerResponse]:
+    """Retrieves all answers by quiz id"""
+    answer_list_dict = await answer_service.get_answers_by_quiz_id(id=id, skip=skip, limit=limit)
+    return [AnswerResponse.model_validate(answer_dict) for answer_dict in answer_list_dict]
+
 @router.get("/{id}", response_model=AnswerResponse)
 async def get_answer_by_id(
     id: int,

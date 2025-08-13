@@ -2,7 +2,7 @@
     File handles all the routes for Logs table
 """
 from fastapi import APIRouter, Depends, HTTPException, status
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 # import Pydantic schemas
 from src.api.schemas.log_schema import LogCreate, LogResponse
@@ -35,7 +35,7 @@ async def get_log_by_id(
         raise HTTPException(status_code=404, detail="No log found")
     return LogResponse.model_validate(log_dict)
 
-@router.get("/", response_model=List[LogResponse], status_code=status.HTTP_200_OK)
+@router.get("/all", response_model=List[LogResponse], status_code=status.HTTP_200_OK)
 async def get_all_logs(
     skip: int = 0,
     limit: int = 10,
@@ -50,12 +50,13 @@ async def get_all_logs(
 @router.get("/user/{id}", response_model=List[LogResponse], status_code=status.HTTP_200_OK)
 async def get_all_logs_by_user_id(
     id: int,
+    question_id: Optional[int] = None,
     skip: int = 0,
     limit: int = 10,
     log_service: LogService = Depends(get_log_service)
 ) -> List[LogResponse]:
     """Retrieve all logs by user"""
-    logs_list_dict = await log_service.get_logs_by_user_id(id=id, skip=skip, limit=limit)
+    logs_list_dict = await log_service.get_logs_by_user_id(id=id, question_id=question_id, skip=skip, limit=limit)
     if logs_list_dict == None:
         raise HTTPException(status_code=400, detail="No logs found for user")
     return [LogResponse.model_validate(log_dict) for log_dict in logs_list_dict]
