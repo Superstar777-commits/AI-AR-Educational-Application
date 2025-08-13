@@ -4,7 +4,6 @@
 
 from pydantic import BaseModel
 from typing import Optional
-from datetime import datetime
 
 # Base schema
 class AnswerBase(BaseModel):
@@ -12,8 +11,7 @@ class AnswerBase(BaseModel):
     user_id: int
     quiz_id: int
     answer: str
-    marksAchieved: Optional[int] = None
-    question: Optional[str] = None
+
 
 class AnswerCreate(AnswerBase):
     question_id: int
@@ -23,10 +21,14 @@ class AnswerCreate(AnswerBase):
 
 class AnswerUpdate(AnswerBase):
     id: int
-    marks: int
+    marksAchieved: int
 
 class AnswerResponse(AnswerBase):
     id: int
+    marks: Optional[int] = None
+    marksAchieved: Optional[int] = None
+    question: Optional[str] = None
+    correctAnswer: Optional[str] = None
 
     class Config:
         from_attributes = True

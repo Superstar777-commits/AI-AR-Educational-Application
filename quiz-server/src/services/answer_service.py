@@ -30,6 +30,16 @@ class AnswerService:
         answers_list_dict = await self.answer_repo.get_answers_by_user_id(id, skip=skip, limit=limit)
         return answers_list_dict
 
+    async def get_answers_by_user_id_and_quiz_id(self, user_id: int, quiz_id: int, skip: int=0, limit: int=10) -> List[Dict[str, Any]]:
+        """Retrieves answers by user id"""
+        answers_list_dict = await self.answer_repo.get_answers_by_user_and_quiz_id(user_id=user_id, quiz_id=quiz_id, skip=skip, limit=limit)
+        return answers_list_dict
+
+    async def get_answers_by_quiz_id(self, id:int, skip: int = 0, limit: int=10) -> List[Dict[str, Any]]:
+        """Retrieves answers by quiz id"""
+        answers_list_dict = await self.answer_repo.get_answers_by_quiz_id(id=id, skip=skip, limit=limit)
+        return answers_list_dict
+
     async def get_answers(self, skip: int=0, limit: int=10) -> List[Dict[str, Any]]:
         """Retrieves all answers"""
         answers_list_dict = await self.answer_repo.get_answers(skip=skip, limit=limit)

@@ -13,6 +13,7 @@ class QuestionBase(BaseModel):
     level: str
     correctAnswer: str
     quiz_id: int
+    type: str
 
 class QuestionCreate(QuestionBase):
     question: str

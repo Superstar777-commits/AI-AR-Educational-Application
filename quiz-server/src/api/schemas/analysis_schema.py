@@ -10,9 +10,10 @@ class AnalysisBase(BaseModel):
     analysis: str
 
 class AnalysisCreate(AnalysisBase):
-    user_id: int
-    question_id: int
-    analysis: str
+    pass
+
+class AnalysisUpdate(AnalysisBase):
+    pass
 
 class AnalysisResponse(AnalysisBase):
     id: int

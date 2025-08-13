@@ -8,6 +8,9 @@ from typing import Optional
 class QuizBase(BaseModel):
     title: str
     duration: int
+    grade: int
+    topic_id: int
+    school_id: Optional[int] = None
 
 # No added parameters as the base has all of them therefore just pass
 class QuizCreate(QuizBase):

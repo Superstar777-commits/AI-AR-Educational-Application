@@ -5,10 +5,11 @@
 
 from typing import Optional, List, Dict, Any
 from sqlalchemy.orm import Session
-from sqlalchemy import select, insert
+from sqlalchemy import select, insert, Select
 from starlette.concurrency import run_in_threadpool
 
 from ..models.logs_model import logs_table
+from ..models.question_model import questions_table
 from ..api.schemas.log_schema import LogCreate
 
 class LogRepository:
@@ -43,11 +44,18 @@ class LogRepository:
             return log_row._asdict() if log_row else None
         return await run_in_threadpool(_get_log_by_sync)
 
-    async def get_logs_by_user_id(self, id: int, skip: int=0, limit: int=10) -> List[Dict[str, Any]]:
+    async def get_logs_by_user_id(self, id: int, question_id: Optional[int] = None, skip: int=0, limit: int=10) -> List[Dict[str, Any]]:
         """Retrieves all user logs"""
         def _get_logs_by_user_id_sync():
-            stmt = select(logs_table).where(logs_table.c.user_id == id).offset(skip).limit(limit)
+            stmt: Select[Any]
+            print(f"question_id: {question_id}")
+            if question_id is not None:
+                stmt = select(logs_table, questions_table.c.question).where((logs_table.c.user_id == id) & (logs_table.c.question_id == question_id)).offset(skip).limit(limit)
+            else:
+                stmt = select(logs_table, questions_table.c.question).where(logs_table.c.user_id == id).offset(skip).limit(limit)
+            print(f"stmt: {stmt}")
             results = self.db.execute(stmt).fetchall()
+            print(f"results: {results}")
             return [row._asdict() for row in results]
         return await run_in_threadpool(_get_logs_by_user_id_sync)
 

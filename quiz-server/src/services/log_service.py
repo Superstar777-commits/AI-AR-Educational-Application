@@ -20,9 +20,9 @@ class LogService:
         question_dict = await self.log_repo.get_log_by_id(id)
         return question_dict
 
-    async def get_logs_by_user_id(self, id: int, skip: int=0, limit: int=10):
+    async def get_logs_by_user_id(self, id: int, question_id: Optional[int] = None, skip: int=0, limit: int=10):
         """Retrieves logs by user id"""
-        log_list_dict = await self.log_repo.get_logs_by_user_id(id, skip, limit)
+        log_list_dict = await self.log_repo.get_logs_by_user_id(id, question_id, skip, limit)
         return log_list_dict
 
     async def get_logs(self, skip: int=0, limit: int=10) -> List[Dict[str, Any]]:

@@ -9,9 +9,14 @@ import enum
 
 # Enum for question levels
 class Levels(enum.Enum):
-    low = 1
-    medium = 2
-    high = 3
+    low = 'low'
+    medium = 'medium'
+    high = 'high'
+
+class Type(enum.Enum):
+    text = 'text'
+    mc = 'mc'
+    tf = 'tf'
 
 questions_table = Table(
     "questions",
@@ -21,5 +26,6 @@ questions_table = Table(
     Column("question", String, nullable=False),
     Column("marks", Integer, nullable=False),
     Column("level", Enum(Levels), nullable=False, default=Levels.low),
-    Column("correctAnswer", String, nullable=False)
+    Column("correctAnswer", String, nullable=False),
+    Column("type", Enum(Type), nullable=False, default=Type.text)
 )

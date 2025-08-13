@@ -13,10 +13,10 @@ class LogBase(BaseModel):
     question_id: int
 
 class LogCreate(LogBase):
-    action: Actions
-    time: datetime
-    user_id: int
-    question_id: int
+    pass
+
+class LogUpdate(LogBase):
+    pass
 
 class LogResponse(LogBase):
     id: int

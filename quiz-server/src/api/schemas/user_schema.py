@@ -10,6 +10,9 @@ class UserBase(BaseModel):
     email: EmailStr
     name: str
     surname: str
+    school_id: Optional[int] = None
+    type: int
+    grade: Optional[int] = None
 
 # schema for creating a new user (input model for POST reqeuests)
 # omits id as the db generates one

@@ -22,6 +22,7 @@ class DataPrepocessor:
             data_dict["user_id"] = user["id"]
             data_dict["answer"] = answer["answer"]
             data_dict["question"] = answer["question"]
+            data_dict["correct_answer"] = answer["correctAnswer"]
             for log in logs:
                 data_dict["log_action"] = log["action"]
                 data_dict["log_time"] = log["time"]
@@ -29,5 +30,4 @@ class DataPrepocessor:
 
         # add index attribute for automatic indexing, otherwise, ValueError for index not existing
         df = pd.DataFrame(data_dict, index=[0])
-        print(df.head())
         return df

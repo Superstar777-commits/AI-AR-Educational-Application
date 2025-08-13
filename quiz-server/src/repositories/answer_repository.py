@@ -65,10 +65,20 @@ class AnswerRepository:
         Retrieves answers by user id
         """
         def _get_answers_by_user_id_sync():
-            stmt = select(answers_table, questions_table.c.question).where((answers_table.c.user_id == user_id) & (answers_table.c.quiz_id == quiz_id)).join(questions_table, answers_table.c.question_id == questions_table.c.id).offset(skip).limit(limit)
+            stmt = select(answers_table, questions_table.c.question, questions_table.c.correctAnswer, questions_table.c.marks).where((answers_table.c.user_id == user_id) & (answers_table.c.quiz_id == quiz_id)).join(questions_table, answers_table.c.question_id == questions_table.c.id).offset(skip).limit(limit)
             results = self.db.execute(stmt).fetchall()
             return [row._asdict() for row in results]
         return await run_in_threadpool(_get_answers_by_user_id_sync)
+
+    async def get_answers_by_quiz_id(self, id:int, skip: int = 0, limit: int=10) -> List[Dict[str, Any]]:
+        """
+            Retrieves answers through the quiz_id
+        """
+        def _get_answers_by_quiz_id_sync():
+            stmt = select(answers_table, questions_table.c.question).where(answers_table.c.quiz_id == id).join(questions_table, answers_table.c.question_id == questions_table.c.id).offset(skip).limit(limit)
+            results = self.db.execute(stmt).fetchall()
+            return [row._asdict() for row in results]
+        return await run_in_threadpool(_get_answers_by_quiz_id_sync)
 
     async def get_answers(self, skip: int = 0, limit = 10) -> List[Dict[str, Any]]:
         """Retrieves all answers"""

@@ -8,8 +8,8 @@ import enum
 
 # Enum for log action
 class Actions(enum.Enum):
-    pause = "pause"
-    resume = "resume"
+    paused = "paused"
+    resumed = "resumed"
     started = "started"
     completed = "completed"
 
