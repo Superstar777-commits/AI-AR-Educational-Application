@@ -18,6 +18,9 @@ class QuestionRepository:
     async def create_question(self, question_data: QuestionCreate) -> Dict[str, Any] | None:
         """
         Creates a new question record
+        Return:
+            Dict[str, Any]: The new row
+            None: Return null if no row created
         """
         def _create_question_sync():
             stmt = insert(questions_table).values(
@@ -25,7 +28,8 @@ class QuestionRepository:
                 marks = question_data.marks,
                 level = question_data.level,
                 correctAnswer = question_data.correctAnswer,
-                quiz_id = question_data.quiz_id
+                quiz_id = question_data.quiz_id,
+                type = question_data.type
             )
 
             result = self.db.execute(stmt)
@@ -41,7 +45,9 @@ class QuestionRepository:
     async def get_question_by_id(self, id: int) -> Optional[Dict[str, Any]]:
         """
             Retrieves a question by ID
-            Returns the question
+            Return:
+                Dict[str, Any]: The question row
+                None: Return null if no row created
         """
         def _get_question_by_id_sync():
             stmt = select(questions_table).where(questions_table.c.id == id)
@@ -65,3 +71,31 @@ class QuestionRepository:
             return [row._asdict() for row in results]
 
         return await run_in_threadpool(_get_questions_sync)
+
+    async def update_question(self, id: int, question_data: QuestionUpdate) -> Dict[str, Any] | None:
+        """
+            Updates a question's question, marks and correct answer
+            Return:
+                Dict[str, Any]: The new row
+                None: Return null if no row created
+        """
+        def _update_question_sync():
+            # create a dict of non-None values from question_data
+            update_values = {k: v for k, v in question_data.model_dump(exclude_unset=True).items() if v is not None}
+
+            if not update_values: # no date to update
+                question_row = self.db.execute(select(questions_table).where(questions_table.c.id == id)).first()
+                return question_row._asdict() if question_row else None
+
+            stmt = update(questions_table).where(questions_table.c.id == id).values(**update_values)
+
+            self.db.execute(stmt)
+            self.db.commit()
+
+            updated_question_row = self.db.execute(
+                select(questions_table).where(questions_table.c.id == id)
+            ).first()
+
+            return updated_question_row._asdict() if updated_question_row else None
+
+        return await run_in_threadpool(_update_question_sync)

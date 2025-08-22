@@ -11,7 +11,7 @@ class UserBase(BaseModel):
     name: str
     surname: str
     school_id: Optional[int] = None
-    type: int
+    type: str
     grade: Optional[int] = None
 
 # schema for creating a new user (input model for POST reqeuests)

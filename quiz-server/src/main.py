@@ -27,6 +27,9 @@ from src.api.routers import quiz_router
 from src.api.routers import analysis_router
 from src.api.routers import answer_router
 from src.api.routers import log_router
+from src.api.routers import topics_router
+from src.api.routers import schools_router
+from src.api.routers import qopts_router
 from src.api.routers import ml_route
 
 # import db initialization function and metadata object
@@ -89,6 +92,9 @@ app.include_router(quiz_router.router)
 app.include_router(answer_router.router)
 app.include_router(analysis_router.router)
 app.include_router(log_router.router)
+app.include_router(topics_router.router)
+app.include_router(schools_router.router)
+app.include_router(qopts_router.router)
 app.include_router(ml_route.router)
 
 @app.get("/")

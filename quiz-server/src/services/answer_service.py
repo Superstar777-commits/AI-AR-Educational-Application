@@ -5,17 +5,22 @@
 
 from typing import Optional, List, Dict, Any
 from src.api.schemas.answer_schema import AnswerResponse, AnswerCreate
+from src.api.schemas.log_schema import LogCreate
 from src.repositories.answer_repository import AnswerRepository
+from src.repositories.log_repository import LogRepository
 
 class AnswerService:
-    def __init__(self, answer_repo: AnswerRepository) -> None:
+    def __init__(self, answer_repo: AnswerRepository, log_repo: LogRepository) -> None:
         self.answer_repo = answer_repo
+        self.log_repo = log_repo
 
-    async def create_answer(self, answer_data: AnswerCreate):
+    async def create_answer(self, answer_data: AnswerCreate, log_data: LogCreate):
         """
-            Creates a new answer
+            Creates a new answer and adds it log
         """
         answer_dict = await self.answer_repo.create_answer(answer_data)
+        await self.log_repo.create_log(log_data)
+
         return answer_dict
 
     async def get_answer_by_id(self, id: int) -> Optional[Dict[str, Any]]:

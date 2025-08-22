@@ -42,12 +42,21 @@ class UserService:
         user_dict = await self.user_repo.get_user_by_id(id)
         return user_dict
 
+    async def get_user_by_email(self, email: str) -> Optional[Dict[str, Any]]:
+        """
+        Retrieves a user by email
+        returns a dict representation of the user or None if not found
+        """
+        user_dict = await self.user_repo.get_user_by_email(email)
+        return user_dict
+
     async def get_all_users(self, skip: int = 0, limit: int = 100) -> List[Dict[str, Any]]:
         """
         Retrieves all users with pagination
         Returns a list of user dictionaries
         """
         users_list_dict = await self.user_repo.get_users(skip=skip, limit=limit)
+        print(f"Users list: {users_list_dict}")
         return users_list_dict
 
     async def update_user(self, id: int, user_data: UserUpdate) -> Optional[Dict[str, Any]]:

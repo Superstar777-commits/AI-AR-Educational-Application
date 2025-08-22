@@ -14,6 +14,6 @@ class Settings(BaseSettings):
     )
 
     # DATABASE_URL should use 'mysql+pymysql' dialect for synchronous connection
-    DATABASE_URL: str = "mysql+pymysql://root:root@localhost:3306/quizdb"
+    DATABASE_URL: str = "mysql+pymysql://root:root@localhost:3306/neurostemdb"
 
 settings = Settings()

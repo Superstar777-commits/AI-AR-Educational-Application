@@ -23,6 +23,16 @@ async def create_quiz_route(
         raise HTTPException(status_code=400, detail="Quiz was not created")
     return QuizResponse.model_validate(quiz_dict)
 
+@router.get("/all", response_model=List[QuizResponse])
+async def get_all_quizzes_route(
+        skip: int = 0,
+        limit: int = 10,
+        quiz_service: QuizService = Depends(get_quiz_service)
+) -> List[QuizResponse]:
+    """Retrieve list of all quizzes"""
+    quiz_list_dict = await quiz_service.get_quizzes(skip=skip, limit=limit)
+    return [QuizResponse.model_validate(quiz_dict) for quiz_dict in quiz_list_dict]
+
 @router.get("/{id}", response_model=QuizResponse, status_code=status.HTTP_200_OK)
 async def get_quiz_by_id(
     id: int,
@@ -33,13 +43,3 @@ async def get_quiz_by_id(
     if not quiz_dict:
         raise HTTPException(status_code=404, detail="Quiz not found")
     return QuizResponse.model_validate(quiz_dict)
-
-@router.get("/all", response_model=List[QuizResponse])
-async def get_all_quizzes_route(
-        skip: int = 0,
-        limit: int = 10,
-        quiz_service: QuizService = Depends(get_quiz_service)
-) -> List[QuizResponse]:
-    """Retrieve list of all quizzes"""
-    quiz_list_dict = await quiz_service.get_quizzes(skip=skip, limit=limit)
-    return [QuizResponse.model_validate(quiz_dict) for quiz_dict in quiz_list_dict]

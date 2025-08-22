@@ -14,6 +14,10 @@ from src.repositories.quiz_repository import QuizRepository
 from src.repositories.answer_repository import AnswerRepository
 from src.repositories.analysis_repository import AnalysisRepository
 from src.repositories.log_repository import LogRepository
+from src.repositories.qoptions_repository import QOptionsRepository
+from src.repositories.topics_repository import TopicsRepository
+from src.repositories.schools_repository import SchoolRepository
+
 # from src.repositories.data_repository import DataRepository # Adjust this if it expects AsyncSession
 from src.services.user_service import UserService
 from src.services.question_service import QuestionService
@@ -21,6 +25,10 @@ from src.services.quiz_service import QuizService
 from src.services.answer_service import AnswerService
 from src.services.analysis_service import AnalysisService
 from src.services.log_service import LogService
+from src.services.qoption_service import QOPtionService
+from src.services.topic_service import TopicService
+from src.services.school_service import SchoolService
+
 # from src.ml_core.model_manager import ModelManager # Adjusted path for clarity
 from src.services.ml_service import MLService
 
@@ -48,6 +56,17 @@ def get_analysis_repository(db: Session = Depends(get_db_session)) -> AnalysisRe
 
 def get_log_repository(db: Session = Depends(get_db_session)) -> LogRepository:
     return LogRepository(db)
+
+def get_topics_repository(db: Session = Depends(get_db_session)) -> TopicsRepository:
+    return TopicsRepository(db)
+
+def get_school_repository(db: Session = Depends(get_db_session)) -> SchoolRepository:
+    return SchoolRepository(db)
+
+def get_qoptions_repository(db: Session = Depends(get_db_session)) -> QOptionsRepository:
+    return QOptionsRepository(db)
+
+
 """ def get_data_repository(db: Session = Depends(get_db_session)) -> DataRepository:
     # If DataRepository needs a database session, it should also expect Session
     # You'll need to update DataRepository's __init__ and methods similar to UserRepository
@@ -70,9 +89,10 @@ def get_quiz_service(
     return QuizService(quiz_repo)
 
 def get_answer_service(
-        answer_repo: AnswerRepository = Depends(get_answer_repository)
+        answer_repo: AnswerRepository = Depends(get_answer_repository),
+        log_repo: LogRepository = Depends(get_log_repository)
 ) -> AnswerService:
-    return AnswerService(answer_repo)
+    return AnswerService(answer_repo, log_repo)
 
 def get_analysis_service(
         analysis_repo: AnalysisRepository = Depends(get_analysis_repository)
@@ -85,6 +105,22 @@ def get_log_service(
     return LogService(log_repo)
 """ def get_model_manager() -> ModelManager:
     return ModelManager() """
+
+def get_qoption_service(
+    qopt_repo: QOptionsRepository = Depends(get_qoptions_repository)
+) -> QOPtionService:
+    return QOPtionService(qopt_repo)
+
+def get_topic_service(
+    topic_repo: TopicsRepository = Depends(get_topics_repository)
+) -> TopicService:
+    return TopicService(topic_repo)
+
+def get_school_service(
+    school_repo: SchoolRepository = Depends(get_school_repository)
+) -> SchoolService:
+    return SchoolService(school_repo)
+
 
 def get_ml_service(
     analysis_repo: AnalysisRepository = Depends(get_analysis_repository),

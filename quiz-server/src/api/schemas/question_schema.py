@@ -16,14 +16,9 @@ class QuestionBase(BaseModel):
     type: str
 
 class QuestionCreate(QuestionBase):
-    question: str
-    marks: int
-    level: str
-    correctAnswer: str
-    quiz_id: int
+    pass
 
 class QuestionUpdate(QuestionBase):
-    id: int
     question: str
     marks: int
     correctAnswer: str

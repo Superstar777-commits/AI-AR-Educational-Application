@@ -5,12 +5,12 @@
 
 from typing import Optional, List, Dict, Any
 from sqlalchemy.orm import Session
-from sqlalchemy import select, insert, Select
+from sqlalchemy import select, insert, update, Select
 from starlette.concurrency import run_in_threadpool
 
 from ..models.logs_model import logs_table
 from ..models.question_model import questions_table
-from ..api.schemas.log_schema import LogCreate
+from ..api.schemas.log_schema import LogCreate, LogUpdate
 
 class LogRepository:
     def __init__(self, db: Session) -> None:
@@ -67,3 +67,29 @@ class LogRepository:
             return [row._asdict() for row in results]
         return await run_in_threadpool(_get_logs_sync)
 
+    async def update_log(self, id: int, log_data: LogUpdate) -> Dict[str, Any] | None:
+        """
+            Updates a log's information
+            Return:
+                Dict[str, Any]: The updated row
+                None: Return null if no row updated
+        """
+        def _update_log_sync():
+            # create a dict of non-None values from log data
+            update_values = {k: v for k, v in log_data.model_dump(exclude_unset=True).items() if v is not None}
+
+            if not update_values:
+                log_row = self.db.execute(select(logs_table).where(logs_table.c.id == id)).first()
+                return log_row._asdict() if log_row else None
+
+            stmt = update(logs_table).where(logs_table.c.id == id).values(**update_values)
+            self.db.execute(stmt)
+            self.db.commit()
+
+            # fetch the updated log to return its current data
+            updated_log_row = self.db.execute(
+                select(logs_table).where(logs_table.c.id == id)
+            ).first()
+            return updated_log_row._asdict() if updated_log_row else None
+
+        return await run_in_threadpool(_update_log_sync)

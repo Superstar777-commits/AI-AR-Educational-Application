@@ -23,18 +23,6 @@ async def create_log_route(
         raise HTTPException(status_code=400, detail="Log failed to be created")
     return LogResponse.model_validate(log_dict)
 
-@router.get("/{id}", response_model=LogResponse, status_code=status.HTTP_200_OK)
-async def get_log_by_id(
-    id: int,
-    log_service: LogService = Depends(get_log_service)
-) -> LogResponse:
-    """Retrieves a log by its ID"""
-    log_dict = await log_service.get_log_by_id(id)
-    print(f"Log dict: {log_dict}")
-    if log_dict == None:
-        raise HTTPException(status_code=404, detail="No log found")
-    return LogResponse.model_validate(log_dict)
-
 @router.get("/all", response_model=List[LogResponse], status_code=status.HTTP_200_OK)
 async def get_all_logs(
     skip: int = 0,
@@ -46,6 +34,18 @@ async def get_all_logs(
     if log_list_dict == None:
         raise HTTPException(status_code=400, detail="No logs found")
     return [LogResponse.model_validate(log_dict) for log_dict in log_list_dict]
+
+@router.get("/{id}", response_model=LogResponse, status_code=status.HTTP_200_OK)
+async def get_log_by_id(
+    id: int,
+    log_service: LogService = Depends(get_log_service)
+) -> LogResponse:
+    """Retrieves a log by its ID"""
+    log_dict = await log_service.get_log_by_id(id)
+    print(f"Log dict: {log_dict}")
+    if log_dict == None:
+        raise HTTPException(status_code=404, detail="No log found")
+    return LogResponse.model_validate(log_dict)
 
 @router.get("/user/{id}", response_model=List[LogResponse], status_code=status.HTTP_200_OK)
 async def get_all_logs_by_user_id(

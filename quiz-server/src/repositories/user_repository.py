@@ -23,7 +23,10 @@ class UserRepository:
                 email = user_data.email,
                 password = user_data.password,
                 name = user_data.name,
-                surname = user_data.surname
+                surname = user_data.surname,
+                grade = user_data.grade,
+                type = user_data.type,
+                school_id = user_data.school_id
             )
 
             result = self.db.execute(stmt)
@@ -65,7 +68,8 @@ class UserRepository:
         def _get_users_sync():
             stmt = select(users_table).offset(skip).limit(limit)
             results = self.db.execute(stmt).fetchall()
-            return [row._asdict() for row in results]
+            print(f"Results: {results}")
+            return [row._asdict() for row in results] if results else []
 
         return await run_in_threadpool(_get_users_sync)
 

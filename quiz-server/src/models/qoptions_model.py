@@ -9,6 +9,6 @@ qoptions_table = Table(
     "qoptions",
     metadata,
     Column("id", Integer, primary_key=True, index=True),
-    Column("option", String, nullable=False),
+    Column("option", String(100), nullable=False),
     Column("question_id", Integer, ForeignKey("questions.id"), nullable=False)
 )

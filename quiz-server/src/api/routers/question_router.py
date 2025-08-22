@@ -27,6 +27,18 @@ async def create_question_route(
         raise HTTPException(status_code=400, detail="Question failed to create")
     return QuestionResponse.model_validate(question_dict)
 
+@router.get("/all", response_model=List[QuestionResponse])
+async def get_all_questions_route(
+    skip: int = 0,
+    limit: int = 10,
+    question_service: QuestionService = Depends(get_question_service)
+) -> List[QuestionResponse]:
+    """
+        Retrieves a list of all questions
+    """
+    questions_list_dict = await question_service.get_questions(skip=skip, limit=limit)
+    return [QuestionResponse.model_validate(question_dict) for question_dict in questions_list_dict]
+
 @router.get("/{id}", response_model=QuestionResponse)
 async def get_question_route(
     id: int,
@@ -39,18 +51,6 @@ async def get_question_route(
     if not question_dict:
         raise HTTPException(status_code=400, detail="Question not found.")
     return QuestionResponse.model_validate(question_dict)
-
-@router.get("/all", response_model=List[QuestionResponse])
-async def get_all_questions_route(
-    skip: int = 0,
-    limit: int = 10,
-    question_service: QuestionService = Depends(get_question_service)
-) -> List[QuestionResponse]:
-    """
-        Retrieves a list of all questions
-    """
-    questions_list_dict = await question_service.get_questions(skip=skip, limit=limit)
-    return [QuestionResponse.model_validate(question_dict) for question_dict in questions_list_dict]
 
 @router.get("/quiz/{id}", response_model=List[QuestionResponse])
 async def get_all_questions_by_quiz_id_route(

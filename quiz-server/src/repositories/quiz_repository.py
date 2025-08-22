@@ -20,7 +20,10 @@ class QuizRepository:
         def _create_quiz_sync():
             stmt = insert(quizzes_table).values(
                 title = quiz_data.title,
-                duration = quiz_data.duration
+                duration = quiz_data.duration,
+                topic_id = quiz_data.topic_id,
+                school_id = quiz_data.school_id,
+                grade = quiz_data.grade
             )
 
             result = self.db.execute(stmt)

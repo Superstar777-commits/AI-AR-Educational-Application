@@ -30,6 +30,20 @@ async def create_user_route(
         raise HTTPException(status_code=400, detail="User with this email already exists.")
     return UserResponse.model_validate(user_dict) # Convert dict from service to Pydantic model
 
+@router.get("/all", response_model=List[UserResponse])
+async def get_all_users_route(
+    skip: int = 0,
+    limit: int = 100,
+    user_service: UserService = Depends(get_user_service)
+) -> List[UserResponse]:
+    """
+    Retrieve a list of all users with pagination.
+    """
+    users_list_dict = await user_service.get_all_users(skip=skip, limit=limit)
+    print(f"Users list dict: {users_list_dict}")
+    # Convert each user dictionary in the list to a UserResponse Pydantic model
+    return [UserResponse.model_validate(user_dict) for user_dict in users_list_dict]
+
 @router.get("/{id}", response_model=UserResponse)
 async def get_user_route(
     id: int,
@@ -43,19 +57,6 @@ async def get_user_route(
     if not user_dict:
         raise HTTPException(status_code=404, detail="User not found.")
     return UserResponse.model_validate(user_dict) # Convert dict from service to Pydantic model
-
-@router.get("/all", response_model=List[UserResponse])
-async def get_all_users_route(
-    skip: int = 0,
-    limit: int = 100,
-    user_service: UserService = Depends(get_user_service)
-) -> List[UserResponse]:
-    """
-    Retrieve a list of all users with pagination.
-    """
-    users_list_dict = await user_service.get_all_users(skip=skip, limit=limit)
-    # Convert each user dictionary in the list to a UserResponse Pydantic model
-    return [UserResponse.model_validate(user_dict) for user_dict in users_list_dict]
 
 
 @router.put("/{id}", response_model=UserResponse)

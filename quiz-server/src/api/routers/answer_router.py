@@ -6,6 +6,7 @@ from typing import List, Dict, Any
 
 # import pydantic schemes
 from src.api.schemas.answer_schema import AnswerCreate, AnswerResponse, AnswerUpdate
+from src.api.schemas.log_schema import LogCreate
 # import AnswerService
 from src.services.answer_service import AnswerService
 #import dependency to inject the AnswerService
@@ -16,12 +17,13 @@ router = APIRouter(prefix="/answers", tags=["Answers"])
 @router.post("/", response_model=AnswerResponse, status_code=status.HTTP_201_CREATED)
 async def create_answer_route(
     answer_data: AnswerCreate,
+    log_data: LogCreate,
     answer_service: AnswerService = Depends(get_answer_service)
 ) -> AnswerResponse:
     """Create a new answer
         User sends their answer to a question
     """
-    answer_dict = await answer_service.create_answer(answer_data)
+    answer_dict = await answer_service.create_answer(answer_data, log_data)
     print(f"Answer dict: {answer_dict}")
     if answer_dict == None:
         raise HTTPException(status_code=400, detail="Could not send answer")
@@ -29,7 +31,7 @@ async def create_answer_route(
 
 @router.get("/all", response_model=List[AnswerResponse])
 async def get_all_answers(
-    skip: int = 10,
+    skip: int = 0,
     limit: int = 10,
     answer_service: AnswerService = Depends(get_answer_service)
 ) -> List[AnswerResponse]:
