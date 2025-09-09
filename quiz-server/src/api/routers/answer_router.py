@@ -36,7 +36,7 @@ async def get_all_answers(
     answer_service: AnswerService = Depends(get_answer_service)
 ) -> List[AnswerResponse]:
     """Retrieve all answers"""
-    answer_list_dict = await answer_service.get_answers(skip, limit)
+    answer_list_dict = await answer_service.get_answers_with_questions(skip, limit)
     return [AnswerResponse.model_validate(answer_dict) for answer_dict in answer_list_dict]
 
 @router.get("/user/{id}", response_model=List[AnswerResponse])

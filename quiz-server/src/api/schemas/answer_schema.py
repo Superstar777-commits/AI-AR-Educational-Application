@@ -25,10 +25,11 @@ class AnswerUpdate(AnswerBase):
 
 class AnswerResponse(AnswerBase):
     id: int
-    marks: Optional[int] = None
-    marksAchieved: Optional[int] = None
-    question: Optional[str] = None
-    correctAnswer: Optional[str] = None
+    marks: int
+    marksAchieved: int
+    question: str
+    correctAnswer: str
+    type: str
 
     class Config:
         from_attributes = True
