@@ -6,3 +6,30 @@ quiz-server/.env
 quiz-server/**/*/__pycache__
 quiz-server/**/*/uvicorn.log
 .vscode/settings.json
+quiz-server/neurostem-58ffa-firebase-adminsdk-fbsvc-7dbcffff33.json
+
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+quiz-client/node_modules
+quiz-client/package-lock.json
+quiz-client/yarn.lock
+
+# testing
+quiz-client/coverage
+
+# production
+quiz-client/build
+
+# misc
+quiz-client/.eslintcache
+quiz-client/.DS_Store
+quiz-client/.idea
+quiz-client/.env.local
+quiz-client/.env.development.local
+quiz-client/.env.test.local
+quiz-client/.env.production.local
+
+quiz-client/npm-debug.log*
+quiz-client/yarn-debug.log*
+quiz-client/yarn-error.log*
