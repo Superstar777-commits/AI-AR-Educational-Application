@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import classNames from 'classnames'
-
+import { AuthContext } from '../../context/AuthContext';
 import {
   CAvatar,
   CButton,
@@ -55,6 +55,7 @@ import WidgetsDropdown from '../widgets/WidgetsDropdown'
 import MainChart from './MainChart'
 
 const Dashboard = () => {
+  const {userData, user} = useContext(AuthContext);
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
@@ -178,6 +179,7 @@ const Dashboard = () => {
 
   return (
     <>
+    <h1 className='mb-4'>Welcome, {userData.name} {userData.surname}!</h1>
       <WidgetsDropdown className="mb-4" />
       <CCard className="mb-4">
         <CCardBody>

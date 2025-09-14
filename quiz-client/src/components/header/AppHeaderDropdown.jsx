@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   CAvatar,
   CBadge,
+  CButton,
   CDropdown,
   CDropdownDivider,
   CDropdownHeader,
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
+  CImage,
 } from '@coreui/react'
 import {
   cilBell,
@@ -23,12 +25,25 @@ import {
 import CIcon from '@coreui/icons-react'
 
 import avatar8 from './../../assets/images/avatars/8.jpg'
+import { AuthContext } from '../../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const AppHeaderDropdown = () => {
+  const {logout, error, user} = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    logout();
+    if(!error){
+      navigate("/login");
+    }
+  }
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0 pe-0" caret={false}>
-        <CAvatar src={avatar8} size="md" />
+        {/* TODO: Change to avatar */}
+        <CImage src={avatar8} rounded width={40} height={40} />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">Account</CDropdownHeader>
@@ -85,8 +100,10 @@ const AppHeaderDropdown = () => {
         </CDropdownItem>
         <CDropdownDivider />
         <CDropdownItem href="#">
-          <CIcon icon={cilLockLocked} className="me-2" />
-          Lock Account
+          <CButton type='button' onClick={handleLogout}>
+            <CIcon icon={cilLockLocked} className="me-2" />
+          Logout
+          </CButton>
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

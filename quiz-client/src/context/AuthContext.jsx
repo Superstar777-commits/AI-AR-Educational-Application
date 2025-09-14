@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
   const [user, setUser] = useState(null)
+  const [userData, setUserData] = useState(null);
   const [auth, setAuth] = useState(null)
 
   const firebaseConfig = {
@@ -35,33 +36,40 @@ export const AuthProvider = ({ children }) => {
 
   // effect will run once when the provider mounts to check the auth status
   useEffect(() => {
-    // firebase initialization using the global config"
+    // firebase initialization using the config
     setIsAuthLoading(true)
     const app = initializeApp(firebaseConfig)
     const authInstance = getAuth(app)
     setAuth(authInstance)
 
-    // initial sign-in with custom token
-    const initialAuthToken =
-      typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null
-    if (initialAuthToken) {
-      signInWithCustomToken(authInstance, initialAuthToken).catch((err) => {
-        console.error('Error signing in with custom token: ', err)
-      })
-    } else {
-      signInAnonymously(authInstance).catch((err) => {
-        console.error('Error signing in anonymously: ', err)
-      })
-    }
-
-    const unsubscribe = onAuthStateChanged(authInstance, (user) => {
-      setUser(user)
-      setIsLoggedIn(!!user)
+    const unsubscribe = onAuthStateChanged(authInstance, async (firebaseUser) => {
+      setIsLoggedIn(!!firebaseUser);
+      setUser(firebaseUser);
+      setUserData(null);
+      if(firebaseUser){
+        // fetch user data from database
+        // use stored token
+        const token = localStorage.getItem("token");
+        try{
+          const response = await fetch('http://localhost:8000/users/user/email', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+          if(response.ok){
+            const data = await response.json();
+            setUserData(data);
+          }
+        }catch(e){
+          console.error("Error fetching user data: ", e);
+          setError(e);
+        }
+      }
       setIsAuthLoading(false)
-    })
+    });
 
     return () => unsubscribe()
-  }, [])
+  }, [auth])
 
   const login = async (email, password) => {
     if (!auth) {
@@ -73,7 +81,22 @@ export const AuthProvider = ({ children }) => {
     setError(null)
 
     try {
-      await signInWithEmailAndPassword(auth, email, password)
+      const userCred = await signInWithEmailAndPassword(auth, email, password)
+      const token = await userCred.user.getIdToken()
+
+      localStorage.setItem('token', token)
+
+      console.log('requesting user info')
+
+      const response = await fetch('http://localhost:8000/users/user/email', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      const user = await response.json()
+
+      setUserData(user)
     } catch (err) {
       console.error('Firebase login failed: ', err.message)
       setError(err.message)
@@ -93,7 +116,16 @@ export const AuthProvider = ({ children }) => {
     setError(null)
 
     try {
-      await signInWithPopup(auth, provider)
+      const userCred = await signInWithPopup(auth, provider)
+      const token = await userCred.user.getIdToken()
+      localStorage.setItem('token', token)
+      const response = await fetch('http://localhost:8000/users/user/email', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      const user = await response.json()
+      setUserData(user)
     } catch (err) {
       console.error('Firebase OAuth login failed: ', err.message)
       setError(err.message)
@@ -114,6 +146,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       await signOut(auth)
+      localStorage.removeItem('token')
     } catch (err) {
       console.error('Firebase logout failed: ', err.message)
       setError(err.message)
@@ -129,6 +162,7 @@ export const AuthProvider = ({ children }) => {
     isAuthLoading,
     error,
     user,
+    userData,
     login,
     logout,
     loginWithGoogle,
