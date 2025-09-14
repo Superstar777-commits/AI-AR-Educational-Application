@@ -6,9 +6,11 @@
 from typing import Union, Dict, Any
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 from contextlib import asynccontextmanager
 import os
+
 import sys
 import logging
 
@@ -34,6 +36,9 @@ from src.api.routers import ml_route
 
 # import db initialization function and metadata object
 from src.core.database import init_db
+
+# firebase intialization
+from src.core import firebase_config
 
 app_state: Dict[str, Any] = {}
 
@@ -67,7 +72,6 @@ async def lifespan(app: FastAPI):
     # Most cleanup for DB sessions is handled by get_db dependency.
     logger.info("Application shutdown complete.")
 
-
 app = FastAPI(
     title="Quiz App API",
     description="Backend for the Quiz app",
@@ -76,7 +80,7 @@ app = FastAPI(
 )
 
 # add your frontend's url
-origin = ["http://localhost:5173"]
+origin = ["http://localhost:3000"]
 
 app.add_middleware(
     CORSMiddleware,
